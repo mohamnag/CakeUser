@@ -43,3 +43,7 @@ public $components = array(
 Import the sql file from ```app/Plugin/CakeUser/Config/Schema/cakeuser.sql``` into your database.
 
 Change config in ```app/Plugin/CakeUser/Config/bootstrap.php``` where necessary.
+
+== Prefilled content
+The schema file contains some prefilled content in order not to block access to site as plugin gets installed. There are two groups and one user included. One of the groups is used as the default group which is assigned to users who just sign up. The other is for administrators.
+The ```admin``` user has the password ```administrator``` which is highly recommended to be changed just after installation.
