@@ -33,6 +33,13 @@ public $components = array(
 );
 ```
 
+> If you have any of the following tables, its going to be dropped by importing the sql file:
+> - users
+> - user_groups
+> - acos
+> - aros
+> - aros_acos
+
 Import the sql file from ```app/Plugin/CakeUser/Config/Schema/cakeuser.sql``` into your database.
 
 Change config in ```app/Plugin/CakeUser/Config/bootstrap.php``` where necessary.
