@@ -4,8 +4,9 @@
  * @property User $User 
  */
 class UsersController extends CakeUserAppController {
+
     public $uses = array('CakeUser.User');
-    
+
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('login', 'register');
@@ -18,10 +19,12 @@ class UsersController extends CakeUserAppController {
                     $flash = Configure::read('CakeUser.Flash.NotActivated');
                     $this->Session->setFlash($flash['message'], $flash['element'], $flash['params'], $flash['key']);
                     $this->Auth->logout();
-                } else {
+                }
+                else {
                     return $this->redirect($this->Auth->redirectUrl());
                 }
-            } else {
+            }
+            else {
                 $flash = Configure::read('CakeUser.Flash.LoginFailed');
                 $this->Session->setFlash($flash['message'], $flash['element'], $flash['params'], $flash['key']);
             }
@@ -34,7 +37,8 @@ class UsersController extends CakeUserAppController {
                 $flash = Configure::read('CakeUser.Flash.Registered');
                 $this->Session->setFlash($flash['message'], $flash['element'], $flash['params'], $flash['key']);
                 $this->redirect(array('action' => 'login'));
-            } else {
+            }
+            else {
                 $flash = Configure::read('CakeUser.Flash.RegistrationFailure');
                 $this->Session->setFlash($flash['message'], $flash['element'], $flash['params'], $flash['key']);
             }

@@ -8,6 +8,8 @@
  */
 
 Configure::write('CakeUser.DbConfig', 'asui');
+//Configure::write('CakeUser.TablePrefix', 'cake_user_');
+Configure::write('Acl.database', 'asui');
 
 Configure::write('CakeUser.Flash.NotActivated', array(
     'message' => __('Your user is not activated, contact an administrator to fix this problem'),
