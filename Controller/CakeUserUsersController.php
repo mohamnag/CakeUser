@@ -3,7 +3,7 @@
 /**
  * @property User $User 
  */
-class UsersController extends CakeUserAppController {
+class CakeUserUsersController extends CakeUserAppController {
 
     public $uses = array('CakeUser.User');
 
@@ -47,6 +47,13 @@ class UsersController extends CakeUserAppController {
 
     public function logout() {
         $this->redirect($this->Auth->logout());
+    }
+
+    public function index() {
+        $this->User->contain('UserGroup');
+        
+        $users = $this->paginate('User');
+        $this->set(compact('users'));
     }
 
 }
