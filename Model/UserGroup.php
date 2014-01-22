@@ -12,6 +12,12 @@ class UserGroup extends CakeUserAppModel {
 
     const DEFAULT_GROUP_ID = 1;
 
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'title';
     public $belongsTo = array(
         'ParentUserGroup' => array(
             'className' => 'CakeUser.UserGroup',
@@ -100,4 +106,5 @@ class UserGroup extends CakeUserAppModel {
             ),
         );
     }
+
 }

@@ -8,13 +8,19 @@ App::uses('UserGroup', 'CakeUser.Model');
  */
 class User extends CakeUserAppModel {
 
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'username';
     public $belongsTo = array(
         'UserGroup' => array(
             'className' => 'CakeUser.UserGroup',
         ),
     );
     public $actsAs = array('Acl' => array(
-        'type' => 'requester',
+            'type' => 'requester',
     ));
 
     public function parentNode() {

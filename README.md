@@ -26,8 +26,8 @@ public $components = array(
 	'Acl',
     'Auth' => array(
         'loginAction' => array(
-            'plugin' => 'cake_user',
-            'controller' => 'users',
+            'plugin' => 'CakeUser',
+            'controller' => 'cake_user_users',
             'action' => 'login'
         ),
         'authenticate' => array(
@@ -50,7 +50,7 @@ Import the sql file from ```app/Plugin/CakeUser/Config/Schema/cakeuser.sql``` in
 Change config in ```app/Plugin/CakeUser/Config/bootstrap.php``` where necessary.
 
 ### Register first user
-We assume the first user who is registered is the administrator. To prevent further problems, just after installing the plugin, naviagte to ```http://yourserveraddress.com/cake_user/users/register```, fill the form and register your first user.
+We assume the first user who is registered is the administrator. To prevent further problems, just after installing the plugin, naviagte to ```http://yourserveraddress.com/cake_user/cake_user_users/register```, fill the form and register your first user.
 
 The schema file contains some pre-filled user groups. The first group is a neutral group which will be also assigned to all new registrations, keep that in mind.
 
@@ -67,8 +67,8 @@ public $components = array(
 	'Acl',
     'Auth' => array(
         'loginAction' => array(
-            'plugin' => 'cake_user',
-            'controller' => 'users',
+            'plugin' => 'CakeUser',
+            'controller' => 'cake_user_users',
             'action' => 'login'
         ),
         'authenticate' => array(
@@ -96,6 +96,13 @@ At this point you may need to grant your administrator access to all of the ```c
 ```
 
 At this point you are setup and ready, navigate to any address on your site and login using the administrator (first user) you just registered and you should be able to see the page.
+
+## Change the route
+In order to access the plugin's actions with a custom path add following to your ```routes.php``` file:
+```php
+Router::connect('/members/:action/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_users'));
+Router::connect('/members/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_users'));
+```
 
 ## License
 This plugin ins licensed under MIT license.
