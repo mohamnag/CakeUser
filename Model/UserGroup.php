@@ -6,6 +6,7 @@ App::uses('AppModel', 'Model');
  * UserGroup Model
  *
  * @property User $User
+ * @property UserGroup $ParentUserGroup 
  */
 class UserGroup extends CakeUserAppModel {
 
@@ -44,19 +45,34 @@ class UserGroup extends CakeUserAppModel {
             'offset' => '',
             'exclusive' => '',
             'finderQuery' => '',
-            'counterQuery' => ''
+            'counterQuery' => '',
         )
     );
-    public $hasOne = array(
-        'Aro' => array(
-            'className' => 'Aro',
-            'foreignKey' => 'foreign_key',
-            'dependent' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-        )
-    );
+    public $actsAs = array('Acl' => array('type' => 'requester'));
+
+    public function parentNode() {
+        if (!$this->id && empty($this->data)) {
+            return NULL;
+        }
+
+        if (isset($this->data[$this->alias]['parent_id'])) {
+            $parentId = $this->data[$this->alias]['parent_id'];
+        }
+        else {
+            $parentId = $this->field('parent_id');
+        }
+
+        if (!$parentId) {
+            return NULL;
+        }
+        else {
+            return array(
+                $this->ParentUserGroup->alias => array(
+                    $this->ParentUserGroup->primaryKey => $parentId
+                )
+            );
+        }
+    }
 
     public function __construct($id = false, $table = null, $ds = null) {
         parent::__construct($id, $table, $ds);
@@ -84,54 +100,4 @@ class UserGroup extends CakeUserAppModel {
             ),
         );
     }
-
-    public function beforeSave($options = array()) {
-        $id = !isset($this->data[$this->alias][$this->primaryKey]) ? $this->id : $this->data[$this->alias][$this->primaryKey];
-        if (!empty($id) && isset($this->data[$this->alias]['parent_id'])) {
-            //if group's parent changes, we have to update its Aro
-            //TODO: will it work?? if save is not saveAssociated
-            $oldData = $this->find('first', array(
-                'conditions' => array('id' => $id),
-                'contain' => 'Aro'
-            ));
-
-            if ($oldData[$this->alias]['user_group_id'] !== $this->data[$this->alias]['user_group_id']) {
-                $this->data['Aro'] = array(
-                    'id' => $oldData['Aro']['id'],
-                    'parent_id' => $this->Aro->field('id', array(
-                        'model' => 'UserGroup',
-                        'foreign_key' => $this->data[$this->alias]['user_group_id']
-                    ))
-                );
-            }
-        }
-
-        parent::beforeSave($options);
-    }
-
-    public function afterSave($created, $options = array()) {
-        if ($created) {
-            //create the Aro for this group and assign it the correct parent
-            if (!empty($this->data[$this->alias]['parent_id'])) {
-                $this->data['Aro'] = array(
-                    'parent_id' => $this->Aro->field('id', array(
-                        'model' => 'UserGroup',
-                        'foreign_key' => $this->data[$this->alias]['user_group_id']
-                    )),
-                    'model' => $this->alias,
-                    'foreign_key' => $this->id,
-                    'alias' => $this->data[$this->alias]['title'],
-                );
-            }
-            else {
-                $this->data['Aro'] = array(
-                    'model' => $this->alias,
-                    'foreign_key' => $this->id,
-                    'alias' => $this->data[$this->alias]['title'],
-                );
-            }
-        }
-        parent::afterSave($created, $options);
-    }
-
 }

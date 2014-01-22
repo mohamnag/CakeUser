@@ -5,7 +5,6 @@ App::uses('UserGroup', 'CakeUser.Model');
 
 /**
  * @property UserGroup $UserGroup 
- * @property Aro $Aro 
  */
 class User extends CakeUserAppModel {
 
@@ -14,16 +13,33 @@ class User extends CakeUserAppModel {
             'className' => 'CakeUser.UserGroup',
         ),
     );
-    public $hasOne = array(
-        'Aro' => array(
-            'className' => 'Aro',
-            'foreignKey' => 'foreign_key',
-            'dependent' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-        )
-    );
+    public $actsAs = array('Acl' => array(
+        'type' => 'requester',
+    ));
+
+    public function parentNode() {
+        if (!$this->id && empty($this->data)) {
+            return NULL;
+        }
+
+        if (isset($this->data[$this->alias]['user_group_id'])) {
+            $groupId = $this->data[$this->alias]['user_group_id'];
+        }
+        else {
+            $groupId = $this->field('user_group_id');
+        }
+
+        if (!$groupId) {
+            return NULL;
+        }
+        else {
+            return array(
+                $this->UserGroup->alias => array(
+                    $this->UserGroup->primaryKey => $groupId
+                )
+            );
+        }
+    }
 
     public function __construct($id = false, $table = null, $ds = null) {
         parent::__construct($id, $table, $ds);
@@ -64,24 +80,6 @@ class User extends CakeUserAppModel {
                 $this->data[$this->alias]['user_group_id'] = UserGroup::DEFAULT_GROUP_ID;
             }
         }
-        else if (isset($this->data[$this->alias]['user_group_id'])) {
-            //if user's group changes, we have to update its Aro
-            //TODO: will it work?? if save is not saveAssociated
-            $oldData = $this->find('first', array(
-                'conditions' => array('id' => $id),
-                'contain' => 'Aro'
-            ));
-
-            if ($oldData[$this->alias]['user_group_id'] !== $this->data[$this->alias]['user_group_id']) {
-                $this->data['Aro'] = array(
-                    'id' => $oldData['Aro']['id'],
-                    'parent_id' => $this->Aro->field('id', array(
-                        'model' => $this->UserGroup->alias,
-                        'foreign_key' => $this->data[$this->alias]['user_group_id']
-                    ))
-                );
-            }
-        }
 
         if (isset($this->data[$this->alias]['password'])) {
             $passwordHasher = new SimplePasswordHasher();
@@ -89,26 +87,6 @@ class User extends CakeUserAppModel {
         }
 
         return parent::beforeSave($options);
-    }
-
-    public function afterSave($created, $options = array()) {
-        if ($created) {
-            //create the Aro for this user and assign it the correct parent
-            $this->Aro->create();
-            $this->Aro->save(array(
-                'Aro' => array(
-                    'parent_id' => $this->Aro->field('id', array(
-                        'model' => $this->UserGroup->alias,
-                        'foreign_key' => $this->data[$this->alias]['user_group_id']
-                    )),
-                    'model' => $this->alias,
-                    'foreign_key' => $this->id,
-                    'alias' => $this->data[$this->alias]['username'],
-                )
-            ));
-        }
-        
-        parent::afterSave($created, $options);
     }
 
 }

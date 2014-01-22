@@ -7,6 +7,9 @@ This plugin is intended to provide the authentication and permission management 
 This plugin utilizes the core ACL and Auth to the best extend and only implements the missing functionality in order you dont need to rewrite one code multiple times.
 
 ## Install
+Proper installation is done in multiple steps that are listed bellow. Follow all of them until you have a fully functional access controll.
+
+### Setting up the plugin
 Add the plugin as submodule using GIT, or just download it and paste it into ```app/Plugin``` folder.
 
 Inside your ```app/bootstrap.php``` add the following line:
@@ -20,6 +23,7 @@ CakePlugin::loadAll(array(
 Add and config the ```Auth``` component as below in your ```app/AppController.php```:
 ```php
 public $components = array(
+	'Acl',
     'Auth' => array(
         'loginAction' => array(
             'plugin' => 'cake_user',
@@ -27,9 +31,10 @@ public $components = array(
             'action' => 'login'
         ),
         'authenticate' => array(
-            'Form' => array('userModel' => 'CakeUser.User')
-        )
-    )
+            AuthComponent::ALL => array('userModel' => 'CakeUser.User'),
+            'Form'
+        ),
+    ),
 );
 ```
 
@@ -44,6 +49,53 @@ Import the sql file from ```app/Plugin/CakeUser/Config/Schema/cakeuser.sql``` in
 
 Change config in ```app/Plugin/CakeUser/Config/bootstrap.php``` where necessary.
 
-## Prefilled content
-The schema file contains some prefilled content in order not to block access to site as plugin gets installed. There are two groups and one user included. One of the groups is used as the default group which is assigned to users who just sign up. The other is for administrators.
-The ```admin``` user has the password ```administrator``` which is highly recommended to be changed just after installation.
+### Register first user
+We assume the first user who is registered is the administrator. To prevent further problems, just after installing the plugin, naviagte to ```http://yourserveraddress.com/cake_user/users/register```, fill the form and register your first user.
+
+The schema file contains some pre-filled user groups. The first group is a neutral group which will be also assigned to all new registrations, keep that in mind.
+
+To activate your first user, you have to access the database directly and set the ```is_active``` field to ```1``` inside ```users``` table.
+
+### Create ACOs
+If you want to use the recommended controller/action setup for ACOs, you will need probably a tool to generate the ACOs automatically and not per hand. In this case installing the [AclExtras](https://github.com/markstory/acl_extras/) plugin is recommended.
+
+Follow installtion process and ACO generation from [AclExtras](https://github.com/markstory/acl_extras/) page.
+
+After installtion of that plugin is done, your ```Auth``` config has to look like as follows:
+```php
+public $components = array(
+	'Acl',
+    'Auth' => array(
+        'loginAction' => array(
+            'plugin' => 'cake_user',
+            'controller' => 'users',
+            'action' => 'login'
+        ),
+        'authenticate' => array(
+            AuthComponent::ALL => array('userModel' => 'CakeUser.User'),
+            'Form'
+        ),
+        'authorize' => array(
+            AuthComponent::ALL => array('userModel' => 'CakeUser.User'),
+            'Actions' => array('actionPath' => 'controllers')
+        ),
+    ),
+);
+```
+You can sync your ACOs now by following command:
+```
+./Console/cake AclExtras.AclExtras aco_sync
+```
+
+If you want to generate your ACOs yourself, do it and then move to next step.
+
+### Give first permission
+At this point you may need to grant your administrator access to all of the ```controllers``` (or any other root ACO that you have created), run following command to do so:
+```
+./Console/cake acl grant User.1 controllers
+```
+
+At this point you are setup and ready, navigate to any address on your site and login using the administrator (first user) you just registered and you should be able to see the page.
+
+## License
+This plugin ins licensed under MIT license.
