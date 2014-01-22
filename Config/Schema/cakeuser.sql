@@ -12,16 +12,20 @@ DROP TABLE IF EXISTS `asui`.`acos` ;
 
 CREATE TABLE IF NOT EXISTS `asui`.`acos` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parent_id` INT(10) NULL DEFAULT NULL,
+  `parent_id` INT(10) UNSIGNED NULL DEFAULT NULL,
   `model` VARCHAR(255) NULL DEFAULT '',
   `foreign_key` INT(10) UNSIGNED NULL DEFAULT NULL,
   `alias` VARCHAR(255) NULL DEFAULT '',
   `lft` INT(10) NULL DEFAULT NULL,
   `rght` INT(10) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+  PRIMARY KEY (`id`),
+  INDEX `fk_acos_acos1_idx` (`parent_id` ASC),
+  CONSTRAINT `fk_acos_acos1`
+    FOREIGN KEY (`parent_id`)
+    REFERENCES `asui`.`acos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -31,16 +35,20 @@ DROP TABLE IF EXISTS `asui`.`aros` ;
 
 CREATE TABLE IF NOT EXISTS `asui`.`aros` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parent_id` INT(10) NULL DEFAULT NULL,
+  `parent_id` INT(10) UNSIGNED NULL DEFAULT NULL,
   `model` VARCHAR(255) NULL DEFAULT '',
   `foreign_key` INT(10) UNSIGNED NULL DEFAULT NULL,
   `alias` VARCHAR(255) NULL DEFAULT '',
   `lft` INT(10) NULL DEFAULT NULL,
   `rght` INT(10) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+  PRIMARY KEY (`id`),
+  INDEX `fk_aros_aros1_idx` (`parent_id` ASC),
+  CONSTRAINT `fk_aros_aros1`
+    FOREIGN KEY (`parent_id`)
+    REFERENCES `asui`.`aros` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -80,7 +88,14 @@ DROP TABLE IF EXISTS `asui`.`user_groups` ;
 CREATE TABLE IF NOT EXISTS `asui`.`user_groups` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id`))
+  `parent_id` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_user_groups_user_groups1_idx` (`parent_id` ASC),
+  CONSTRAINT `fk_user_groups_user_groups1`
+    FOREIGN KEY (`parent_id`)
+    REFERENCES `asui`.`user_groups` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -110,22 +125,23 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `asui`.`user_groups`
+-- Data for table `asui`.`aros`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `asui`;
-INSERT INTO `asui`.`user_groups` (`id`, `title`) VALUES (1, 'Registered Users');
-INSERT INTO `asui`.`user_groups` (`id`, `title`) VALUES (2, 'Administrators');
+INSERT INTO `asui`.`aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES (1, NULL, 'UserGroup', 1, 'Registered Users', 1, 2);
+INSERT INTO `asui`.`aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES (2, NULL, 'UserGroup', 2, 'Administrators', 3, 4);
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `asui`.`users`
+-- Data for table `asui`.`user_groups`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `asui`;
-INSERT INTO `asui`.`users` (`id`, `username`, `password`, `is_active`, `user_group_id`) VALUES (1, 'admin', 'fcaee5811d7f94cb83ba98c3a2eb74b30035d63c', 1, 1);
+INSERT INTO `asui`.`user_groups` (`id`, `title`, `parent_id`) VALUES (1, 'Registered Users', NULL);
+INSERT INTO `asui`.`user_groups` (`id`, `title`, `parent_id`) VALUES (2, 'Administrators', NULL);
 
 COMMIT;
 
