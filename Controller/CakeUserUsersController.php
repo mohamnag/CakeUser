@@ -51,9 +51,37 @@ class CakeUserUsersController extends CakeUserAppController {
 
     public function index() {
         $this->User->contain('UserGroup');
-        
+
         $users = $this->paginate('User');
         $this->set(compact('users'));
+    }
+
+    public function edit($id) {
+        if ($this->request->is('PUT') || $this->request->is('POST')) {
+            if ($this->User->save($this->request->data)) {
+
+                $flash = Configure::read('CakeUser.Flash.UserEdit');
+                $msg = str_replace('%s', $this->User->field('username'), $flash['message']);
+                $this->Session->setFlash($msg, $flash['element'], $flash['params'], $flash['key']);
+
+                $this->redirect(array('action' => 'index'));
+            }
+        }
+        else {
+            $user = $this->User->find('first', array(
+                'conditions' => array('User.id' => $id),
+                'contain' => 'UserGroup',
+            ));
+
+            if (!$user) {
+                throw new NotFoundException(Configure::read('CakeUser.Exception.UserNotFound'));
+            }
+
+            $this->request->data = $user;
+        }
+
+        $userGroups = $this->User->UserGroup->find('list');
+        $this->set(compact('userGroups'));
     }
 
 }
