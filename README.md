@@ -31,7 +31,7 @@ public $components = array(
             'action' => 'login'
         ),
         'authenticate' => array(
-            AuthComponent::ALL => array('userModel' => 'CakeUser.User'),
+            AuthComponent::ALL => array('userModel' => 'CakeUser.CakeUserUser'),
             'Form'
         ),
     ),
@@ -72,11 +72,11 @@ public $components = array(
             'action' => 'login'
         ),
         'authenticate' => array(
-            AuthComponent::ALL => array('userModel' => 'CakeUser.User'),
+            AuthComponent::ALL => array('userModel' => 'CakeUser.CakeUserUser'),
             'Form'
         ),
         'authorize' => array(
-            AuthComponent::ALL => array('userModel' => 'CakeUser.User'),
+            AuthComponent::ALL => array('userModel' => 'CakeUser.CakeUserUser'),
             'Actions' => array('actionPath' => 'controllers')
         ),
     ),
@@ -92,7 +92,7 @@ If you want to generate your ACOs yourself, do it and then move to next step.
 ### Give first permission
 At this point you may need to grant your administrator access to all of the ```controllers``` (or any other root ACO that you have created), run following command to do so:
 ```
-./Console/cake acl grant User.1 controllers
+./Console/cake acl grant CakeUserUser.1 controllers
 ```
 
 At this point you are setup and ready, navigate to any address on your site and login using the administrator (first user) you just registered and you should be able to see the page.
@@ -100,11 +100,11 @@ At this point you are setup and ready, navigate to any address on your site and 
 ## Change the route
 In order to access the plugin's actions with a custom path add following to your ```routes.php``` file:
 ```php
-Router::connect('/members/:action/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_users'));
-Router::connect('/members/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_users'));
+Router::connect('/members/:action/*', array('plugin' => 'cake_user', 'controller' => 'cake_user_users'));
+Router::connect('/members/*', array('plugin' => 'cake_user', 'controller' => 'cake_user_users'));
 
-Router::connect('/members_groups/:action/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_user_groups'));
-Router::connect('/members_groups/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_user_groups'));
+Router::connect('/members_groups/:action/*', array('plugin' => 'cake_user', 'controller' => 'cake_user_user_groups'));
+Router::connect('/members_groups/*', array('plugin' => 'cake_user', 'controller' => 'cake_user_user_groups'));
 ```
 
 ## License

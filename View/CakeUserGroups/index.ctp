@@ -25,20 +25,20 @@
     <tbody>
         <?php foreach ($groups as $group): ?>
         <tr>
-            <td><?php echo $group['UserGroup']['title'] ?></td>
-            <td><?php echo $group['ParentUserGroup']['title'] ?></td>
+            <td><?php echo $group['CakeUserGroup']['title'] ?></td>
+            <td><?php echo $group['ParentCakeUserGroup']['title'] ?></td>
             <td>
                 <?php
                 echo $this->Html->link(
                         __('Delete'), 
-                        array('action'=>'delete', $group['UserGroup']['id']), 
+                        array('action'=>'delete', $group['CakeUserGroup']['id']), 
                         array('class'=>'btn btn-default btn-xs'),
-                        __('Are you sure you want to delete group %s and all of its users?', $group['UserGroup']['title'])
+                        __('Are you sure you want to delete group %s and all of its users?', $group['CakeUserGroup']['title'])
                 );
                 ?>
                 <?php
                 echo $this->Html->link(__('Edit'), 
-                        array('action'=>'edit', $group['UserGroup']['id']), 
+                        array('action'=>'edit', $group['CakeUserGroup']['id']), 
                         array('class'=>'btn btn-default btn-xs')
                 );
                 ?>

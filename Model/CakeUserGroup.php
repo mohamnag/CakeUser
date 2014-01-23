@@ -3,12 +3,12 @@
 App::uses('AppModel', 'Model');
 
 /**
- * UserGroup Model
+ * CakeUserGroup Model
  *
- * @property User $User
- * @property UserGroup $ParentUserGroup 
+ * @property CakeUserUser $CakeUserUser
+ * @property CakeUserGroup $ParentCakeUserGroup 
  */
-class UserGroup extends CakeUserAppModel {
+class CakeUserGroup extends CakeUserAppModel {
 
     const DEFAULT_GROUP_ID = 1;
 
@@ -19,8 +19,8 @@ class UserGroup extends CakeUserAppModel {
      */
     public $displayField = 'title';
     public $belongsTo = array(
-        'ParentUserGroup' => array(
-            'className' => 'CakeUser.UserGroup',
+        'ParentCakeUserGroup' => array(
+            'className' => 'CakeUser.CakeUserGroup',
             'foreignKey' => 'parent_id',
             'dependent' => true,
             'conditions' => '',
@@ -40,9 +40,9 @@ class UserGroup extends CakeUserAppModel {
      * @var array
      */
     public $hasMany = array(
-        'User' => array(
-            'className' => 'CakeUser.User',
-            'foreignKey' => 'user_group_id',
+        'CakeUserUser' => array(
+            'className' => 'CakeUser.CakeUserUser',
+            'foreignKey' => 'cake_user_group_id',
             'dependent' => true,
             'conditions' => '',
             'fields' => '',
@@ -74,7 +74,7 @@ class UserGroup extends CakeUserAppModel {
         else {
             return array(
                 $this->alias => array(
-                    $this->ParentUserGroup->primaryKey => $parentId
+                    $this->ParentCakeUserGroup->primaryKey => $parentId
                 )
             );
         }
@@ -97,11 +97,11 @@ class UserGroup extends CakeUserAppModel {
             'title' => array(
                 'notEmpty' => array(
                     'rule' => array('notEmpty'),
-                    'message' => Configure::read('CakeUser.Validation.UserGroup.EmptyTitle'),
+                    'message' => Configure::read('CakeUser.Validation.CakeUserGroup.EmptyTitle'),
                 ),
                 'maxLength' => array(
                     'rule' => array('maxLength', 100),
-                    'message' => Configure::read('CakeUser.Validation.UserGroup.LongTitle'),
+                    'message' => Configure::read('CakeUser.Validation.CakeUserGroup.LongTitle'),
                 ),
             ),
         );

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @property User $User 
+ * @property CakeUserUser $CakeUserUser 
  */
 class CakeUserUsersController extends CakeUserAppController {
 
-    public $uses = array('CakeUser.User');
+    public $uses = array('CakeUser.CakeUserUser');
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -33,7 +33,7 @@ class CakeUserUsersController extends CakeUserAppController {
 
     public function register() {
         if ($this->request->is('POST')) {
-            if ($this->User->save($this->request->data)) {
+            if ($this->CakeUserUser->save($this->request->data)) {
                 $flash = Configure::read('CakeUser.Flash.Registered');
                 $this->Session->setFlash($flash['message'], $flash['element'], $flash['params'], $flash['key']);
                 $this->redirect(array('action' => 'login'));
@@ -50,50 +50,50 @@ class CakeUserUsersController extends CakeUserAppController {
     }
 
     public function index() {
-        $this->User->contain('UserGroup');
+        $this->CakeUserUser->contain('CakeUserGroup');
 
-        $users = $this->paginate('User');
+        $users = $this->paginate('CakeUserUser');
         $this->set(compact('users'));
     }
 
     public function edit($id) {
         if ($this->request->is('PUT') || $this->request->is('POST')) {
-            if ($this->User->save($this->request->data)) {
+            if ($this->CakeUserUser->save($this->request->data)) {
 
-                $flash = Configure::read('CakeUser.Flash.UserEdit');
-                $msg = str_replace('%s', $this->User->field('username'), $flash['message']);
+                $flash = Configure::read('CakeUser.Flash.CakeUserUserEdit');
+                $msg = str_replace('%s', $this->CakeUserUser->field('username'), $flash['message']);
                 $this->Session->setFlash($msg, $flash['element'], $flash['params'], $flash['key']);
 
                 $this->redirect(array('action' => 'index'));
             }
         }
         else {
-            $user = $this->User->find('first', array(
-                'conditions' => array('User.id' => $id),
-                'contain' => 'UserGroup',
+            $user = $this->CakeUserUser->find('first', array(
+                'conditions' => array('CakeUserUser.id' => $id),
+                'contain' => 'CakeUserGroup',
             ));
 
             if (!$user) {
-                throw new NotFoundException(Configure::read('CakeUser.Exception.UserNotFound'));
+                throw new NotFoundException(Configure::read('CakeUser.Exception.CakeUserUserNotFound'));
             }
 
             $this->request->data = $user;
         }
 
-        $userGroups = $this->User->UserGroup->find('list');
-        $this->set(compact('userGroups'));
+        $cakeUserGroups = $this->CakeUserUser->CakeUserGroup->find('list');
+        $this->set(compact('cakeUserGroups'));
     }
     
     public function delete($id) {
-        $user = $this->User->read(NULL, $id);
+        $user = $this->CakeUserUser->read(NULL, $id);
         
         if (!$user) {
-            throw new NotFoundException(Configure::read('CakeUser.Exception.UserNotFound'));
+            throw new NotFoundException(Configure::read('CakeUser.Exception.CakeUserUserNotFound'));
         }
         
-        if($this->User->delete($id)) {
-            $flash = Configure::read('CakeUser.Flash.UserDelete');
-            $msg = str_replace('%s', $user['User']['username'], $flash['message']);
+        if($this->CakeUserUser->delete($id)) {
+            $flash = Configure::read('CakeUser.Flash.CakeUserUserDelete');
+            $msg = str_replace('%s', $user['CakeUserUser']['username'], $flash['message']);
             $this->Session->setFlash($msg, $flash['element'], $flash['params'], $flash['key']);
 
             $this->redirect(array('action' => 'index'));

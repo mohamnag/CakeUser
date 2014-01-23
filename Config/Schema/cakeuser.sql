@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `asui`.`acos` (
   CONSTRAINT `fk_acos_acos1`
     FOREIGN KEY (`parent_id`)
     REFERENCES `asui`.`acos` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `asui`.`aros` (
   CONSTRAINT `fk_aros_aros1`
     FOREIGN KEY (`parent_id`)
     REFERENCES `asui`.`aros` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -81,11 +81,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `asui`.`user_groups`
+-- Table `asui`.`cake_user_groups`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `asui`.`user_groups` ;
+DROP TABLE IF EXISTS `asui`.`cake_user_groups` ;
 
-CREATE TABLE IF NOT EXISTS `asui`.`user_groups` (
+CREATE TABLE IF NOT EXISTS `asui`.`cake_user_groups` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
   `parent_id` INT NULL DEFAULT NULL,
@@ -93,28 +93,28 @@ CREATE TABLE IF NOT EXISTS `asui`.`user_groups` (
   INDEX `fk_user_groups_user_groups1_idx` (`parent_id` ASC),
   CONSTRAINT `fk_user_groups_user_groups1`
     FOREIGN KEY (`parent_id`)
-    REFERENCES `asui`.`user_groups` (`id`)
+    REFERENCES `asui`.`cake_user_groups` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `asui`.`users`
+-- Table `asui`.`cake_user_users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `asui`.`users` ;
+DROP TABLE IF EXISTS `asui`.`cake_user_users` ;
 
-CREATE TABLE IF NOT EXISTS `asui`.`users` (
+CREATE TABLE IF NOT EXISTS `asui`.`cake_user_users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(50) NOT NULL,
   `is_active` TINYINT(1) NOT NULL DEFAULT 0,
-  `user_group_id` INT NOT NULL DEFAULT 0,
+  `cake_user_group_id` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  INDEX `fk_asui_users_asui_user_groups_idx` (`user_group_id` ASC),
+  INDEX `fk_asui_users_asui_user_groups_idx` (`cake_user_group_id` ASC),
   CONSTRAINT `fk_asui_users_asui_user_groups`
-    FOREIGN KEY (`user_group_id`)
-    REFERENCES `asui`.`user_groups` (`id`)
+    FOREIGN KEY (`cake_user_group_id`)
+    REFERENCES `asui`.`cake_user_groups` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -129,19 +129,19 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `asui`;
-INSERT INTO `asui`.`aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES (1, NULL, 'UserGroup', 1, 'Registered Users', 1, 2);
-INSERT INTO `asui`.`aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES (2, NULL, 'UserGroup', 2, 'Administrators', 3, 4);
+INSERT INTO `asui`.`aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES (1, NULL, 'CakeUserGroup', 1, 'Registered Users', 1, 2);
+INSERT INTO `asui`.`aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES (2, NULL, 'CakeUserGroup', 2, 'Administrators', 3, 4);
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `asui`.`user_groups`
+-- Data for table `asui`.`cake_user_groups`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `asui`;
-INSERT INTO `asui`.`user_groups` (`id`, `title`, `parent_id`) VALUES (1, 'Registered Users', NULL);
-INSERT INTO `asui`.`user_groups` (`id`, `title`, `parent_id`) VALUES (2, 'Administrators', NULL);
+INSERT INTO `asui`.`cake_user_groups` (`id`, `title`, `parent_id`) VALUES (1, 'Registered Users', NULL);
+INSERT INTO `asui`.`cake_user_groups` (`id`, `title`, `parent_id`) VALUES (2, 'Administrators', NULL);
 
 COMMIT;
 

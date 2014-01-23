@@ -24,21 +24,21 @@
     <tbody>
         <?php foreach ($users as $user): ?>
         <tr>
-            <td><?php echo $user['User']['username'] ?></td>
-            <td><?php echo $user['User']['is_active'] ? __('activated') : __('not activated') ?></td>
-            <td><?php echo $user['UserGroup']['title'] ?></td>
+            <td><?php echo $user['CakeUserUser']['username'] ?></td>
+            <td><?php echo $user['CakeUserUser']['is_active'] ? __('activated') : __('not activated') ?></td>
+            <td><?php echo $user['CakeUserGroup']['title'] ?></td>
             <td>
                 <?php
                 echo $this->Html->link(
                         __('Delete'), 
-                        array('action'=>'delete', $user['User']['id']), 
+                        array('action'=>'delete', $user['CakeUserUser']['id']), 
                         array('class'=>'btn btn-default btn-xs'),
-                        __('Are you sure you want to delete user %s?', $user['User']['username'])
+                        __('Are you sure you want to delete user %s?', $user['CakeUserUser']['username'])
                 );
                 ?>
                 <?php
                 echo $this->Html->link(__('Edit'), 
-                        array('action'=>'edit', $user['User']['id']), 
+                        array('action'=>'edit', $user['CakeUserUser']['id']), 
                         array('class'=>'btn btn-default btn-xs')
                 );
                 ?>

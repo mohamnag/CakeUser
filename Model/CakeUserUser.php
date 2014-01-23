@@ -1,12 +1,12 @@
 <?php
 
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
-App::uses('UserGroup', 'CakeUser.Model');
+App::uses('CakeUserGroup', 'CakeUser.Model');
 
 /**
- * @property UserGroup $UserGroup 
+ * @property CakeUserGroup $CakeUserGroup 
  */
-class User extends CakeUserAppModel {
+class CakeUserUser extends CakeUserAppModel {
 
     /**
      * Display field
@@ -15,8 +15,8 @@ class User extends CakeUserAppModel {
      */
     public $displayField = 'username';
     public $belongsTo = array(
-        'UserGroup' => array(
-            'className' => 'CakeUser.UserGroup',
+        'CakeUserGroup' => array(
+            'className' => 'CakeUser.CakeUserGroup',
         ),
     );
     public $actsAs = array('Acl' => array(
@@ -28,11 +28,11 @@ class User extends CakeUserAppModel {
             return NULL;
         }
 
-        if (isset($this->data[$this->alias]['user_group_id'])) {
-            $groupId = $this->data[$this->alias]['user_group_id'];
+        if (isset($this->data[$this->alias]['cake_user_group_id'])) {
+            $groupId = $this->data[$this->alias]['cake_user_group_id'];
         }
         else {
-            $groupId = $this->field('user_group_id');
+            $groupId = $this->field('cake_user_group_id');
         }
 
         if (!$groupId) {
@@ -40,8 +40,8 @@ class User extends CakeUserAppModel {
         }
         else {
             return array(
-                $this->UserGroup->alias => array(
-                    $this->UserGroup->primaryKey => $groupId
+                $this->CakeUserGroup->alias => array(
+                    $this->CakeUserGroup->primaryKey => $groupId
                 )
             );
         }
@@ -63,16 +63,16 @@ class User extends CakeUserAppModel {
         $this->validate = array(
             'username' => array(
                 'rule' => array('shouldNotExists'),
-                'message' => Configure::read('CakeUser.Validation.User.DuplicateUsername'),
+                'message' => Configure::read('CakeUser.Validation.CakeUserUser.DuplicateUsername'),
                 'on' => 'create'
             ),
             'password' => array(
                 'rule' => array('minLength', '8'),
-                'message' => Configure::read('CakeUser.Validation.User.ShortPassword'),
+                'message' => Configure::read('CakeUser.Validation.CakeUserUser.ShortPassword'),
             ),
             'password2' => array(
                 'rule' => array('matchField', 'password'),
-                'message' => Configure::read('CakeUser.Validation.User.PasswordsNotMatch'),
+                'message' => Configure::read('CakeUser.Validation.CakeUserUser.PasswordsNotMatch'),
             ),
         );
     }
@@ -82,8 +82,8 @@ class User extends CakeUserAppModel {
         if (empty($id)) {
             $this->data[$this->alias]['is_active'] = FALSE;
 
-            if (!isset($this->data[$this->alias]['user_group_id'])) {
-                $this->data[$this->alias]['user_group_id'] = UserGroup::DEFAULT_GROUP_ID;
+            if (!isset($this->data[$this->alias]['cake_user_group_id'])) {
+                $this->data[$this->alias]['cake_user_group_id'] = CakeUserGroup::DEFAULT_GROUP_ID;
             }
         }
 
