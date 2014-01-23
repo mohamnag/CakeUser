@@ -29,15 +29,17 @@
             <td><?php echo $user['UserGroup']['title'] ?></td>
             <td>
                 <?php
-                echo $this->Html->link(__('Delete'), 
-                    array('action'=>'delete', $user['User']['id']), 
-                    array('class'=>'btn btn-default btn-xs')
+                echo $this->Html->link(
+                        __('Delete'), 
+                        array('action'=>'delete', $user['User']['id']), 
+                        array('class'=>'btn btn-default btn-xs'),
+                        __('Are you sure you want to delete user %s?', $user['User']['username'])
                 );
                 ?>
                 <?php
                 echo $this->Html->link(__('Edit'), 
-                    array('action'=>'edit', $user['User']['id']), 
-                    array('class'=>'btn btn-default btn-xs')
+                        array('action'=>'edit', $user['User']['id']), 
+                        array('class'=>'btn btn-default btn-xs')
                 );
                 ?>
             </td>

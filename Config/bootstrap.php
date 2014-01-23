@@ -46,6 +46,13 @@ Configure::write('CakeUser.Flash.UserEdit', array(
     'key' => 'flash'
 ));
 
+Configure::write('CakeUser.Flash.UserDelete', array(
+    'message' => __('User %s was deleted successfully.'),
+    'element' => 'success',
+    'params' => array(),
+    'key' => 'flash'
+));
+
 Configure::write('CakeUser.Validation.User', array(
     'DuplicateUsername' => __('This user name is already registered'),
     'ShortPassword' => __('Passwords should be at least 8 characters long'),

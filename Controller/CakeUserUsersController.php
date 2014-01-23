@@ -83,5 +83,21 @@ class CakeUserUsersController extends CakeUserAppController {
         $userGroups = $this->User->UserGroup->find('list');
         $this->set(compact('userGroups'));
     }
+    
+    public function delete($id) {
+        $user = $this->User->read(NULL, $id);
+        
+        if (!$user) {
+            throw new NotFoundException(Configure::read('CakeUser.Exception.UserNotFound'));
+        }
+        
+        if($this->User->delete($id)) {
+            $flash = Configure::read('CakeUser.Flash.UserDelete');
+            $msg = str_replace('%s', $user['User']['username'], $flash['message']);
+            $this->Session->setFlash($msg, $flash['element'], $flash['params'], $flash['key']);
+
+            $this->redirect(array('action' => 'index'));
+        }
+    }
 
 }
