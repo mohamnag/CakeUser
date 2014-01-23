@@ -102,6 +102,9 @@ In order to access the plugin's actions with a custom path add following to your
 ```php
 Router::connect('/members/:action/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_users'));
 Router::connect('/members/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_users'));
+
+Router::connect('/members_groups/:action/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_user_groups'));
+Router::connect('/members_groups/*', array('plugin' => 'CakeUser', 'controller' => 'cake_user_user_groups'));
 ```
 
 ## License

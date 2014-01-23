@@ -53,6 +53,27 @@ Configure::write('CakeUser.Flash.UserDelete', array(
     'key' => 'flash'
 ));
 
+Configure::write('CakeUser.Flash.UserGroupEdit', array(
+    'message' => __('Users\' group %s was updated successfully.'),
+    'element' => 'success',
+    'params' => array(),
+    'key' => 'flash'
+));
+
+Configure::write('CakeUser.Flash.UserGroupAdd', array(
+    'message' => __('User group %s was created successfully.'),
+    'element' => 'success',
+    'params' => array(),
+    'key' => 'flash'
+));
+
+Configure::write('CakeUser.Flash.UserGroupDelete', array(
+    'message' => __('User group %s was deleted successfully.'),
+    'element' => 'success',
+    'params' => array(),
+    'key' => 'flash'
+));
+
 Configure::write('CakeUser.Validation.User', array(
     'DuplicateUsername' => __('This user name is already registered'),
     'ShortPassword' => __('Passwords should be at least 8 characters long'),
@@ -66,4 +87,5 @@ Configure::write('CakeUser.Validation.UserGroup', array(
 
 Configure::write('CakeUser.Exception', array(
     'UserNotFound' => __('The requested user was not found'),
+    'UserGroupNotFound' => __('The requested group was not found'),
 ));

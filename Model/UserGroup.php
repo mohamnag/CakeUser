@@ -73,7 +73,7 @@ class UserGroup extends CakeUserAppModel {
         }
         else {
             return array(
-                $this->ParentUserGroup->alias => array(
+                $this->alias => array(
                     $this->ParentUserGroup->primaryKey => $parentId
                 )
             );
