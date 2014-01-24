@@ -67,7 +67,7 @@ public $components = array(
 	'Acl',
     'Auth' => array(
         'loginAction' => array(
-            'plugin' => 'CakeUser',
+            'plugin' => 'cake_user',
             'controller' => 'cake_user_users',
             'action' => 'login'
         ),

@@ -50,11 +50,6 @@ class CakeUserUser extends CakeUserAppModel {
     public function __construct($id = false, $table = null, $ds = null) {
         parent::__construct($id, $table, $ds);
 
-        $dbcfg = Configure::read('CakeUser.DbConfig');
-        if (!empty($dbcfg)) {
-            $this->useDbConfig = $dbcfg;
-        }
-
         $prefixcfg = Configure::read('CakeUser.TablePrefix');
         if (!empty($dbcfg)) {
             $this->tablePrefix = $prefixcfg;
