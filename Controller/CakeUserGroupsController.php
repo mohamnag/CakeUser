@@ -91,7 +91,7 @@ class CakeUserGroupsController extends CakeUserAppController {
         );
 
         if ($this->request->is('POST')) {
-            if($this->Acl->Aro->saveAll($this->request->data)) {
+            if ($this->Acl->Aro->saveAll($this->request->data)) {
                 $flash = Configure::read('CakeUser.Flash.PermissionsUpdate');
                 $this->Session->setFlash($flash['message'], $flash['element'], $flash['params'], $flash['key']);
             }
