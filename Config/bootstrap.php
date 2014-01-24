@@ -74,6 +74,13 @@ Configure::write('CakeUser.Flash.CakeUserGroupDelete', array(
     'key' => 'flash'
 ));
 
+Configure::write('CakeUser.Flash.PermissionsUpdate', array(
+    'message' => __('Group\'s permissions were updated successfully.'),
+    'element' => 'success',
+    'params' => array(),
+    'key' => 'flash'
+));
+
 Configure::write('CakeUser.Validation.CakeUserUser', array(
     'DuplicateUsername' => __('This user name is already registered'),
     'ShortPassword' => __('Passwords should be at least 8 characters long'),

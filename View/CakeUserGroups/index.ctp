@@ -42,6 +42,12 @@
                         array('class'=>'btn btn-default btn-xs')
                 );
                 ?>
+                <?php
+                echo $this->Html->link(__('Permissions'), 
+                        array('action'=>'permissions', $group['CakeUserGroup']['id']), 
+                        array('class'=>'btn btn-default btn-xs')
+                );
+                ?>
             </td>
         </tr>
         <?php endforeach; ?>

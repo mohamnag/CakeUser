@@ -97,6 +97,11 @@ At this point you may need to grant your administrator access to all of the ```c
 
 At this point you are setup and ready, navigate to any address on your site and login using the administrator (first user) you just registered and you should be able to see the page.
 
+If you want to grant permissions to the default ```Administrator``` group, you can run the following command:
+```
+./Console/cake acl grant CakeUserGroup.2 controllers
+```
+
 ## Change the route
 In order to access the plugin's actions with a custom path add following to your ```routes.php``` file:
 ```php
