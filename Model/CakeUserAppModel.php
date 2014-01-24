@@ -2,6 +2,8 @@
 
 class CakeUserAppModel extends AppModel {
 
+    public $actsAs = array('Containable');
+
     public function matchField($check, $otherField) {
         $val = reset($check);
         return $val == $this->data[$this->alias][$otherField];
