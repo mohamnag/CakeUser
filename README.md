@@ -105,11 +105,11 @@ If you want to grant permissions to the default ```Administrator``` group, you c
 ## Change the route
 In order to access the plugin's actions with a custom path add following to your ```routes.php``` file:
 ```php
+Router::connect('/members', array('plugin' => 'cake_user', 'controller' => 'cake_user_users', 'action' => 'index'));
 Router::connect('/members/:action/*', array('plugin' => 'cake_user', 'controller' => 'cake_user_users'));
-Router::connect('/members/*', array('plugin' => 'cake_user', 'controller' => 'cake_user_users'));
 
-Router::connect('/members_groups/:action/*', array('plugin' => 'cake_user', 'controller' => 'cake_user_user_groups'));
-Router::connect('/members_groups/*', array('plugin' => 'cake_user', 'controller' => 'cake_user_user_groups'));
+Router::connect('/members_groups', array('plugin' => 'cake_user', 'controller' => 'cake_user_groups', 'action' => 'index'));
+Router::connect('/members_groups/:action/*', array('plugin' => 'cake_user', 'controller' => 'cake_user_groups'));
 ```
 
 ## License
